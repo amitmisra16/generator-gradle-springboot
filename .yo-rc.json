@@ -1,0 +1,9 @@
+{
+  "generator-node": {
+    "promptValues": {
+      "authorName": "Amit Misra",
+      "authorEmail": "amitmisra_in@hotmail.com",
+      "authorUrl": ""
+    }
+  }
+}
