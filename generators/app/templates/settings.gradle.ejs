@@ -1,0 +1,4 @@
+rootProject.name = '<%= rootFolderName %>'
+
+<% for(var i = 0; i < modules.length; ++i) {%>
+include '<%=modules[i].name%>'<% } %>

@@ -1,7 +1,7 @@
 {
   "name": "generator-gradle-springboot",
   "version": "0.0.0",
-  "description": "",
+  "description": "Enables generating gradle/groovy based library and springboot application projects for mono-repo style project/microservice setup",
   "homepage": "",
   "author": {
     "name": "Amit Misra",
@@ -14,7 +14,11 @@
   "main": "generators/index.js",
   "keywords": [
     "yoeman-generator",
-    "yeoman-generator"
+    "gradle",
+    "springboot",
+    "multimodule",
+    "mono-repo",
+    "microservice"
   ],
   "devDependencies": {
     "yeoman-test": "^1.7.0",
