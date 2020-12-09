@@ -2,11 +2,11 @@
   "name": "generator-gradle-springboot",
   "version": "0.0.0",
   "description": "Enables generating gradle/groovy based library and springboot application projects for mono-repo style project/microservice setup",
-  "homepage": "",
+  "homepage": "https://github.com/amitmisra16/generator-gradle-springboot.git",
   "author": {
     "name": "Amit Misra",
     "email": "amitmisra_in@hotmail.com",
-    "url": ""
+    "url": "https://github.com/amitmisra16"
   },
   "files": [
     "generators"
