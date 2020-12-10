@@ -1,24 +1,17 @@
 "use strict";
 const Generator = require("yeoman-generator");
 const chalk = require("chalk");
-const yosay = require("yosay");
 const path = require("path");
-const console = require("console");
 const { exit } = require("process");
 const fs = require("fs");
 
 module.exports = class extends Generator {
   initializing() {
-    console.log("Initializing");
     if (this.fs.exists(path.join(this.destinationRoot(), "./.yo-rc.json"))) {
-      var rootFolderName = this.config.get("rootFolderName");
-      console.log("init::rootFolderName :>> ", rootFolderName);
       this.modules = this.config.get("modules");
-      console.log("init::modules :>> ", this.modules);
     } else {
       var location = this.destinationRoot();
-      var directory = location.substring(0, location.lastIndexOf("/"));
-      var directoryName = directory.substring(directory.lastIndexOf("/") + 1);
+      var directoryName = location.substring(location.lastIndexOf("/") + 1);
       this.config.set("rootFolderName", directoryName);
       this.modules = [];
       this.config.set("modules", this.modules);
@@ -26,16 +19,37 @@ module.exports = class extends Generator {
     }
   }
 
+  _banner() {
+    this.log(` e88~~\\                         888 888`);
+    this.log(`d888     888-~\\    /~~~8e  e88~\\888 888  e88~~8e`);
+    this.log(`8888 __  888          88b d888  888 888 d888  88b`);
+    this.log(`8888   | 888     e88~-888 8888  888 888 8888__888`);
+    this.log(`Y888   | 888    C888  888 Y888  888 888 Y888    ,`);
+    this.log(` "88__/  888     "88_-888  "88_/888 888  "88___/`);
+    this.log(
+      `,d88~~\\                   ,e,               / 888~~\\                     d8`
+    );
+    this.log(
+      `8888    888-~88e  888-~\\ "   888-~88e e88~88e 888   |  e88~-_   e88~-_  _d88__`
+    );
+    this.log(
+      `\`Y88b   888  888b 888    888 888  888 888 888 888 _/  d888   i d888   i  888`
+    );
+    this.log(
+      ` \`Y88b, 888  8888 888    888 888  888 "88_88" 888  \\  8888   | 8888   |  888`
+    );
+    this.log(
+      `   8888 888  888P 888    888 888  888  /      888   | Y888   ' Y888   '  888`
+    );
+    this.log(
+      `\\__88P' 888-_88"  888    888 888  888 Cb      888__/   "88_-~   "88_-~   "88_/`
+    );
+    this.log(`        888                            Y8""8D`);
+  }
+
   prompting() {
     // Have Yeoman greet the user.
-    this.log(
-      yosay(
-        `Welcome to the phenomenal ${chalk.red(
-          "generator-directory-creator"
-        )} generator!`
-      )
-    );
-
+    this._banner();
     const projectTypes = [
       {
         value: "javaLibrary",
@@ -70,7 +84,6 @@ module.exports = class extends Generator {
     ];
 
     return this.prompt(prompts).then(props => {
-      // To access props later use this.props.someAnswer;
       this.props = props;
     });
   }
@@ -94,7 +107,6 @@ module.exports = class extends Generator {
       this.log(
         "Does this project exists in meta information: " + existsInConfig
       );
-      console.log(this.modules);
       exit(-100);
     } else {
       var modules = this.config.get("modules");
@@ -102,27 +114,29 @@ module.exports = class extends Generator {
         modules = [];
       }
 
-      console.log(modules);
       modules.push(newModule);
-      console.log("this.modules :>> ", modules);
       this.config.set("modules", modules);
       this.config.save();
     }
   }
 
   refreshingSettingsGradle() {
-    console.log("this.config.get('modules') :>> ", this.config.get("modules"));
     var moduleList = this.config.get("modules");
     var config = {
       rootFolderName: this.config.get("rootFolderName"),
       modules: moduleList
     };
-    console.log("config :>> ", config);
     this.fs.copyTpl(
       path.join(this.templatePath(), "settings.gradle.ejs"),
       "settings.gradle",
       config
     );
+  }
+
+  addGradleSpecificFiles() {
+    this._copyGradlewFile();
+    this._copyGradlewBatFile();
+    this._copyGradleWrapper();
   }
 
   configureBuildSrc() {
@@ -149,14 +163,12 @@ module.exports = class extends Generator {
   }
 
   _createGradleLibraryProject() {
-    console.log("library method called");
     var moduleName = this.props.moduleName;
     var packageName = this.props.package.replace(/\./g, "/");
     const config = {
       moduleName: moduleName,
       packageName: this.props.package
     };
-    console.log("template config input: " + JSON.stringify(config));
     this.fs.copyTpl(
       path.join(
         this.templatePath(),
@@ -185,7 +197,6 @@ module.exports = class extends Generator {
   }
 
   _createSpringBootProject() {
-    console.log("springboot application method called");
     var moduleName = this.props.moduleName;
     var packageName = this.props.package.replace(/\./g, "/");
     const config = {
@@ -233,14 +244,53 @@ module.exports = class extends Generator {
       configModules.forEach(configMod => {
         const configModName = configMod.name;
         if (configModName === moduleName) {
-          console.log(
-            "configModName: " + configModName + " moduleName: " + moduleName
-          );
           exists = true;
         }
       });
     }
 
     return exists;
+  }
+
+  _copyGradlewFile() {
+    const gradlewExists = fs.existsSync("gradlew");
+    if (gradlewExists) {
+      this.log(
+        "Looks like gradlew already exists, skipping copying gradlew executable"
+      );
+    } else {
+      this.fs.copy(
+        path.join(this.templatePath(), "gradlew"),
+        path.join(this.destinationRoot(), "gradlew")
+      );
+    }
+  }
+
+  _copyGradlewBatFile() {
+    const gradlewBatExists = fs.existsSync("gradlew.bat");
+    if (gradlewBatExists) {
+      this.log(
+        "Looks like gradlew.bat already exists, skipping copying gradlew.bat executable"
+      );
+    } else {
+      this.fs.copy(
+        path.join(this.templatePath(), "gradlew.bat"),
+        path.join(this.destinationRoot(), "gradlew.bat")
+      );
+    }
+  }
+
+  _copyGradleWrapper() {
+    const gradleWrapperExists = fs.existsSync("gradle/wrapper");
+    if (gradleWrapperExists) {
+      this.log(
+        "Looks like gradle wrapper directory exists, skipping copying it here"
+      );
+    } else {
+      this.fs.copy(
+        path.join(this.templatePath(), "gradle"),
+        path.join(this.destinationRoot(), "gradle")
+      );
+    }
   }
 };

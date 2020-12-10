@@ -16,6 +16,12 @@ describe("generator-gradle-springboot:library", () => {
     assert.file([
       ".yo-rc.json",
       "settings.gradle",
+      "gradlew",
+      "gradlew.bat",
+      "gradle",
+      "gradle/wrapper",
+      "gradle/wrapper/gradle-wrapper.jar",
+      "gradle/wrapper/gradle-wrapper.properties",
       "buildSrc/src/main/groovy/java-common-conventions.gradle",
       "buildSrc/src/main/groovy/java-library-conventions.gradle",
       "buildSrc/src/main/groovy/java-application-conventions.gradle",
@@ -44,6 +50,12 @@ describe("generator-gradle-springboot:app", () => {
   it("creates project related files and folders", () => {
     assert.file([
       ".yo-rc.json",
+      "gradlew",
+      "gradlew.bat",
+      "gradle",
+      "gradle/wrapper",
+      "gradle/wrapper/gradle-wrapper.jar",
+      "gradle/wrapper/gradle-wrapper.properties",
       "settings.gradle",
       "buildSrc/src/main/groovy/java-common-conventions.gradle",
       "buildSrc/src/main/groovy/java-library-conventions.gradle",
