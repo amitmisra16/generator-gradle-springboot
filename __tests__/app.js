@@ -32,9 +32,10 @@ describe("generator-gradle-springboot:library", () => {
     ]);
   });
   it("generated file content", () => {
-    assert.fileContent([
-      ["settings.gradle", "rootProject.name = 'tmp'\n\n\ninclude 'samplelib'"]
-    ]);
+    assert.fileContent(
+      "settings.gradle",
+      /rootProject\.name = '.+'\n\n\ninclude 'samplelib'/
+    );
   });
 });
 
@@ -69,8 +70,9 @@ describe("generator-gradle-springboot:app", () => {
   });
 
   it("generated file content", () => {
-    assert.fileContent([
-      ["settings.gradle", "rootProject.name = 'tmp'\n\n\ninclude 'sampleapp'"]
-    ]);
+    assert.fileContent(
+      "settings.gradle",
+      /rootProject\.name = '.+'\n\n\ninclude 'sampleapp'/
+    );
   });
 });
