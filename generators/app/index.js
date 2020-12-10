@@ -11,8 +11,7 @@ module.exports = class extends Generator {
       this.modules = this.config.get("modules");
     } else {
       var location = this.destinationRoot();
-      var directory = location.substring(0, location.lastIndexOf("/"));
-      var directoryName = directory.substring(directory.lastIndexOf("/") + 1);
+      var directoryName = location.substring(location.lastIndexOf("/") + 1);
       this.config.set("rootFolderName", directoryName);
       this.modules = [];
       this.config.set("modules", this.modules);
@@ -134,6 +133,12 @@ module.exports = class extends Generator {
     );
   }
 
+  addGradleSpecificFiles() {
+    this._copyGradlewFile();
+    this._copyGradlewBatFile();
+    this._copyGradleWrapper();
+  }
+
   configureBuildSrc() {
     const buildSrcExists = fs.existsSync(
       path.join(this.destinationRoot(), "buildSrc")
@@ -245,5 +250,47 @@ module.exports = class extends Generator {
     }
 
     return exists;
+  }
+
+  _copyGradlewFile() {
+    const gradlewExists = fs.existsSync("gradlew");
+    if (gradlewExists) {
+      this.log(
+        "Looks like gradlew already exists, skipping copying gradlew executable"
+      );
+    } else {
+      this.fs.copy(
+        path.join(this.templatePath(), "gradlew"),
+        path.join(this.destinationRoot(), "gradlew")
+      );
+    }
+  }
+
+  _copyGradlewBatFile() {
+    const gradlewBatExists = fs.existsSync("gradlew.bat");
+    if (gradlewBatExists) {
+      this.log(
+        "Looks like gradlew.bat already exists, skipping copying gradlew.bat executable"
+      );
+    } else {
+      this.fs.copy(
+        path.join(this.templatePath(), "gradlew.bat"),
+        path.join(this.destinationRoot(), "gradlew.bat")
+      );
+    }
+  }
+
+  _copyGradleWrapper() {
+    const gradleWrapperExists = fs.existsSync("gradle/wrapper");
+    if (gradleWrapperExists) {
+      this.log(
+        "Looks like gradle wrapper directory exists, skipping copying it here"
+      );
+    } else {
+      this.fs.copy(
+        path.join(this.templatePath(), "gradle"),
+        path.join(this.destinationRoot(), "gradle")
+      );
+    }
   }
 };
