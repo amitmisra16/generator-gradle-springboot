@@ -8,7 +8,7 @@ describe("generator-gradle-springboot:library", () => {
     return helpers.run(path.join(__dirname, "../generators/app")).withPrompts({
       projectType: "javaLibrary",
       moduleName: "samplelib",
-      package: "com.sample.lib"
+      package: "com.sample.lib",
     });
   });
 
@@ -28,7 +28,7 @@ describe("generator-gradle-springboot:library", () => {
       "buildSrc/build.gradle",
       "samplelib/build.gradle",
       "samplelib/src/main/java/com/sample/lib/LinkedList.java",
-      "samplelib/src/test/java/com/sample/lib/LinkedListTest.java"
+      "samplelib/src/test/java/com/sample/lib/LinkedListTest.java",
     ]);
   });
   it("generated file content", () => {
@@ -44,7 +44,7 @@ describe("generator-gradle-springboot:app", () => {
     return helpers.run(path.join(__dirname, "../generators/app")).withPrompts({
       projectType: "springBootApplication",
       moduleName: "sampleapp",
-      package: "com.sample.app"
+      package: "com.sample.app",
     });
   });
 
@@ -65,7 +65,7 @@ describe("generator-gradle-springboot:app", () => {
       "sampleapp/build.gradle",
       "sampleapp/src/main/java/com/sample/app/App.java",
       "sampleapp/src/main/java/com/sample/app/MessageUtils.java",
-      "sampleapp/src/test/java/com/sample/app/MessageUtilsTest.java"
+      "sampleapp/src/test/java/com/sample/app/MessageUtilsTest.java",
     ]);
   });
 
