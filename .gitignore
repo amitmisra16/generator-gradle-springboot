@@ -1,2 +1,9 @@
 node_modules
 coverage
+
+generators/app/templates/app/.gradle
+generators/app/templates/app/.project
+generators/app/templates/app/.settings
+generators/app/templates/buildSrc/.gradle
+generators/app/templates/buildSrc/bin
+generators/app/templates/library/.gradle

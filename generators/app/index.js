@@ -53,12 +53,12 @@ module.exports = class extends Generator {
     const projectTypes = [
       {
         value: "javaLibrary",
-        name: "Gradle based Java library module"
+        name: "Gradle based Java library module",
       },
       {
         value: "springBootApplication",
-        name: "Gradle based Springboot application module"
-      }
+        name: "Gradle based Springboot application module",
+      },
     ];
 
     const prompts = [
@@ -69,21 +69,21 @@ module.exports = class extends Generator {
           "*type*"
         )} of project you would like to create?`,
         choices: projectTypes,
-        default: "javaLibrary"
+        default: "javaLibrary",
       },
       {
         type: "input",
         name: "moduleName",
-        message: "What is the name of the module you want to create?"
+        message: "What is the name of the module you want to create?",
       },
       {
         type: "input",
         name: "package",
-        message: "What is the name of package for your module?"
-      }
+        message: "What is the name of package for your module?",
+      },
     ];
 
-    return this.prompt(prompts).then(props => {
+    return this.prompt(prompts).then((props) => {
       this.props = props;
     });
   }
@@ -92,7 +92,7 @@ module.exports = class extends Generator {
     var newModule = {
       name: this.props.moduleName,
       type: this.props.projectType,
-      package: this.props.package
+      package: this.props.package,
     };
 
     const existsInConfig = this._checkModuleNameExists(this.props.moduleName);
@@ -124,7 +124,7 @@ module.exports = class extends Generator {
     var moduleList = this.config.get("modules");
     var config = {
       rootFolderName: this.config.get("rootFolderName"),
-      modules: moduleList
+      modules: moduleList,
     };
     this.fs.copyTpl(
       path.join(this.templatePath(), "settings.gradle.ejs"),
@@ -167,7 +167,7 @@ module.exports = class extends Generator {
     var packageName = this.props.package.replace(/\./g, "/");
     const config = {
       moduleName: moduleName,
-      packageName: this.props.package
+      packageName: this.props.package,
     };
     this.fs.copyTpl(
       path.join(
@@ -201,7 +201,7 @@ module.exports = class extends Generator {
     var packageName = this.props.package.replace(/\./g, "/");
     const config = {
       moduleName: moduleName,
-      packageName: this.props.package
+      packageName: this.props.package,
     };
     this.fs.copyTpl(
       path.join(this.templatePath(), "app/src/main/java/App.java.ejs"),
@@ -241,7 +241,7 @@ module.exports = class extends Generator {
     var configModules = this.modules;
     var exists = false;
     if (configModules) {
-      configModules.forEach(configMod => {
+      configModules.forEach((configMod) => {
         const configModName = configMod.name;
         if (configModName === moduleName) {
           exists = true;

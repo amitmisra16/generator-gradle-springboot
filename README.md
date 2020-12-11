@@ -1,4 +1,4 @@
-# generator-gradle-springboot [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
+# generator-gradle-springboot ![Node.js CI](https://github.com/amitmisra16/generator-gradle-springboot/workflows/Node.js%20CI/badge.svg) ![Node.js Package](https://github.com/amitmisra16/generator-gradle-springboot/workflows/Node.js%20Package/badge.svg)
 > 
 
 ## Why another gradle and springboot based generator?
