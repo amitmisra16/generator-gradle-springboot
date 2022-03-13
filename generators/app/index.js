@@ -10,8 +10,8 @@ module.exports = class extends Generator {
     if (this.fs.exists(path.join(this.destinationRoot(), "./.yo-rc.json"))) {
       this.modules = this.config.get("modules");
     } else {
-      const location = this.destinationRoot();
-      const directoryName = location.substring(location.lastIndexOf("/") + 1);
+      var location = this.destinationRoot();
+      var directoryName = location.substring(location.lastIndexOf("/") + 1);
       this.config.set("rootFolderName", directoryName);
       this.modules = [];
       this.config.set("modules", this.modules);
@@ -89,7 +89,7 @@ module.exports = class extends Generator {
   }
 
   addingModuleToConfig() {
-    const newModule = {
+    var newModule = {
       name: this.props.moduleName,
       type: this.props.projectType,
       package: this.props.package,
@@ -97,7 +97,7 @@ module.exports = class extends Generator {
 
     const existsInConfig = this._checkModuleNameExists(this.props.moduleName);
 
-    const alreadyExists = fs.existsSync(path.join(".", this.props.moduleName));
+    var alreadyExists = fs.existsSync(path.join(".", this.props.moduleName));
     if (alreadyExists) {
       this.log(
         "Project " +
@@ -109,7 +109,7 @@ module.exports = class extends Generator {
       );
       exit(-100);
     } else {
-      let modules = this.config.get("modules");
+      var modules = this.config.get("modules");
       if (modules === undefined || modules === null) {
         modules = [];
       }
@@ -121,8 +121,8 @@ module.exports = class extends Generator {
   }
 
   refreshingSettingsGradle() {
-    const moduleList = this.config.get("modules");
-    const config = {
+    var moduleList = this.config.get("modules");
+    var config = {
       rootFolderName: this.config.get("rootFolderName"),
       modules: moduleList,
     };
@@ -154,7 +154,7 @@ module.exports = class extends Generator {
   }
 
   createProject() {
-    const { projectType } = this.props;
+    const projectType = this.props.projectType;
     if (projectType === "javaLibrary") {
       this._createGradleLibraryProject();
     } else if (projectType === "springBootApplication") {
@@ -163,23 +163,18 @@ module.exports = class extends Generator {
   }
 
   _createGradleLibraryProject() {
-    const { moduleName, packageName } = this.props;
-    const packageNamePath = this.props.package.replace(/\./g, "/");
+    var moduleName = this.props.moduleName;
+    var packageName = this.props.package.replace(/\./g, "/");
     const config = {
-      moduleName,
-      packageName,
+      moduleName: moduleName,
+      packageName: this.props.package,
     };
     this.fs.copyTpl(
       path.join(
         this.templatePath(),
         "library/src/main/java/LinkedList.java.ejs"
       ),
-      path.join(
-        moduleName,
-        "/src/main/java",
-        packageNamePath,
-        "/LinkedList.java"
-      ),
+      path.join(moduleName, "/src/main/java", packageName, "/LinkedList.java"),
       config
     );
     this.fs.copyTpl(
@@ -190,7 +185,7 @@ module.exports = class extends Generator {
       path.join(
         moduleName,
         "src/test/java",
-        packageNamePath,
+        packageName,
         "LinkedListTest.java"
       ),
       config
@@ -202,15 +197,15 @@ module.exports = class extends Generator {
   }
 
   _createSpringBootProject() {
-    const { moduleName, packageName } = this.props;
-    const packageNamePath = this.props.package.replace(/\./g, "/");
+    var moduleName = this.props.moduleName;
+    var packageName = this.props.package.replace(/\./g, "/");
     const config = {
-      moduleName,
-      packageName,
+      moduleName: moduleName,
+      packageName: this.props.package,
     };
     this.fs.copyTpl(
       path.join(this.templatePath(), "app/src/main/java/App.java.ejs"),
-      path.join(moduleName, "/src/main/java", packageNamePath, "/App.java"),
+      path.join(moduleName, "/src/main/java", packageName, "/App.java"),
       config
     );
     this.fs.copyTpl(
@@ -218,7 +213,7 @@ module.exports = class extends Generator {
       path.join(
         moduleName,
         "/src/main/java",
-        packageNamePath,
+        packageName,
         "/MessageUtils.java"
       ),
       config
@@ -231,7 +226,7 @@ module.exports = class extends Generator {
       path.join(
         moduleName,
         "src/test/java",
-        packageNamePath,
+        packageName,
         "MessageUtilsTest.java"
       ),
       config
@@ -243,8 +238,8 @@ module.exports = class extends Generator {
   }
 
   _checkModuleNameExists(moduleName) {
-    const configModules = this.modules;
-    let exists = false;
+    var configModules = this.modules;
+    var exists = false;
     if (configModules) {
       configModules.forEach((configMod) => {
         const configModName = configMod.name;

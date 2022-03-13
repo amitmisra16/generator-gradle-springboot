@@ -5,7 +5,7 @@ const helpers = require("yeoman-test");
 
 describe("generator-gradle-springboot:library", () => {
   beforeAll(() => {
-    helpers.run(path.join(__dirname, "../generators/app")).withPrompts({
+    return helpers.run(path.join(__dirname, "../generators/app")).withPrompts({
       projectType: "javaLibrary",
       moduleName: "samplelib",
       package: "com.sample.lib",
@@ -14,6 +14,7 @@ describe("generator-gradle-springboot:library", () => {
 
   it("creates project related files and folders", () => {
     assert.file([
+      ".yo-rc.json",
       "settings.gradle",
       "gradlew",
       "gradlew.bat",
@@ -40,7 +41,7 @@ describe("generator-gradle-springboot:library", () => {
 
 describe("generator-gradle-springboot:app", () => {
   beforeAll(() => {
-    helpers.run(path.join(__dirname, "../generators/app")).withPrompts({
+    return helpers.run(path.join(__dirname, "../generators/app")).withPrompts({
       projectType: "springBootApplication",
       moduleName: "sampleapp",
       package: "com.sample.app",
