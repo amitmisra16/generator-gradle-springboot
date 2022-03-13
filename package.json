@@ -82,8 +82,7 @@
   },
   "scripts": {
     "pretest": "eslint .",
-    "test": "jest --colors",
-    "posttest": "./node_modules/david/bin/david.js -p ./package.json"
+    "test": "jest --colors"
   },
   "repository": "amitmisra16/generator-gradle-springboot",
   "license": "Apache-2.0"
